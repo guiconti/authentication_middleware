@@ -16,7 +16,7 @@ exports.validateToken = function (req, res, next){
             res.status(401);
             res.json({
                 type: false,
-                data: 'You do not have the permission to access this'
+                data: 'You do not have the permission to access this.'
             });
 
         } else {

@@ -19,8 +19,8 @@ exports.passwordEncrypt = function(password){
     return new Promise((resolve, reject) => {
 
         //  Check if this can lead to any errors
-        if (typeof(passwordSecretKey) != 'string'){
-            if (typeof(password) != 'string') return reject('Password not a string');
+        if (typeof(passwordSecretKey) != 'null'){
+            if (typeof(password) == 'null') return reject('Password to be encrypted is null.');
 
             // Encrypt Message with our salty key
             var encryptedPassword = crypto.AES.encrypt(password, passwordSecretKey);
@@ -41,7 +41,7 @@ exports.compareEncrypt = function(notEncryptedPassword, encryptedPassword){
 
         try {
 
-            if (typeof(notEncryptedPassword) != 'string' || typeof(encryptedPassword) != 'string') {
+            if (typeof(notEncryptedPassword) == 'null' || typeof(encryptedPassword) == 'null') {
                 return reject(false);
             }
 
@@ -71,24 +71,30 @@ exports.generateToken = function(userData){
     return new Promise(function (resolve, reject) {
         
         try {
-        
-            // Encrypts our user JSON object
-            var encryptedData = crypto.AES.encrypt(userData, secretKey).toString();
+
+            if(typeof(userData) == 'null') return reject('Not a valid user data');
+
+            var encryptedUserData = crypto.AES.encrypt(userData, passwordSecretKey).toString();
             
             // Get our token encrypted data 
             var token = jwt.sign({
-                token: encryptedData
+                token: encryptedUserData
             }, tokenSecretKey);
             
-            resolve(token);
+            return resolve(token);
             
         } catch (e){
-            reject(e);
+            return reject(e);
         }   
     });
 };
 
-// Validate token
+/*
+    30/05/2017
+    This function is responsible to check if a user token is valid
+    The function receives a parameter token that expected a object with the user token
+    The function returns a promise with the token data if it's valid
+*/
 exports.decryptToken = function(token){
     
     return new Promise(function (resolve, reject) {
@@ -96,14 +102,13 @@ exports.decryptToken = function(token){
         try {
         
             var decodedJWT = jwt.verify(token, tokenSecretKey);
-            var bytes = crypto.AES.decrypt(decodedJWT.token, secretKey);
-            var tokenData = JSON.parse(bytes.toString(crypto.enc.Utf8));
+            var tokenInBytes = crypto.AES.decrypt(decodedJWT.token, passwordSecretKey);
+            var tokenData = JSON.parse(tokenInBytes.toString(crypto.enc.Utf8));
             
-            resolve(tokenData);
+            return resolve(tokenData);
             
         } catch (e) {
-            reject();
+            return reject(e);
         }    
-        
     });      
 };
