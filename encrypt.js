@@ -6,6 +6,9 @@ var tokenSecretKey = 'replace me';
 var crypto = require('crypto-js');
 var jwt = require('jsonwebtoken');
 
+//  TODO: Split password encryption and token encryption in two files
+//  TODO: Default comment format
+
 /*
     31/07/2016
     This function is responsible to encrypt a password that it receives from a parameter.
