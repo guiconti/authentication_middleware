@@ -1,11 +1,22 @@
+/**
+ * Módulo de ações do IoT
+ * @module bot/gmail
+ */
+
 const encrypt = require('./encrypt');
 
-/* 
-    07/09/2016
-    Valida o token do usuario em todos os request que precisam de token valido
-    Caso nao haja token ou o mesmo seja invalido redireciona ele para a tela
-    de login
-*/
+/**
+ * Executa uma ação IoT utilizando as APIs do mesmo.
+ * Receba uma mensagem enviada pelo Telegram, avalia a ação e executa caso tudo esteja de acordo
+ *
+ * @param {object} msg - Mensagem enviada para o bot solicitando ação no IoT.
+ * @param {object} msg.chat - Informações do chat em que a solicitação aconteceu.
+ * @param {integer} msg.chat.id - ID do chat em que a solicitação ocorreu.
+ * @param {object} msg.from - Informações sobre a pessoa que realizou a solicitação.
+ * @param {integer} msg.from.id - ID da pessoa que solicitou a ação.
+ * @param {string[]} match - Array com todas as informações da requisição (após o /i).
+ * @return {bot.sendMessage} - Retorna a execução da resposta no Telegram.
+ */
 exports.validateToken = function (req, res, next){
     
     try {

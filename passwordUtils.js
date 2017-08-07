@@ -1,18 +1,26 @@
-//  Replace with your password salty key
-var passwordSecretKey = 'replace me';
+/**
+ * Password management module
+ * @module passwordUtils
+ */
+
+/**
+ * Password encryptation key
+ * @readonly
+ * @const {string}
+ */
+const passwordSecretKey = 'replace me';
 
 var crypto = require('crypto-js');
 
-//  TODO: Default comment format
-
-/*
-    31/07/2016
-    This function is responsible to encrypt a password that it receives from a parameter.
-    The parameter it receives should be an string or a number
-    It uses a secret key to salty the password so it becomes encrypted via the AES algorithm
-    The AES algorithm is provided by the crypto package, so we don`t implement it.
-    After the encryptation it returns the encrypted password as a string
-*/
+/**
+ * Encrypt user's password
+ * Get a user's password an encrypt with the encryptation key
+ *
+ * @param {string} password - Not encrypted user's password
+ * @return {Promise.string} - Returns a promise with user`s encrypted password
+ * @throws {Promise.string} - Returns the error found while encrypting user's password
+ * 
+ */
 exports.passwordEncrypt = function(password){
     
     return new Promise((resolve, reject) => {
@@ -29,11 +37,14 @@ exports.passwordEncrypt = function(password){
     });
 };
 
-/*
-    Compare if a not encrypted password is equal to a encrypted password
-    The function receives two parameter. The first is the not encrypted password
-    the second is the encrypted password that we want to compare
-*/
+/**
+ * Compare if a encrypted password is equal to a no encrypted password
+ * 
+ * @param {string} notEncryptedPassword - Not encrypted user's password
+ * @param {string} encryptedPassword - Encrypted user's password
+ * @return {Promise.boolean} - Returns a promise with the equivalence of both password
+ * 
+ */
 exports.compareEncrypt = function(notEncryptedPassword, encryptedPassword){
     
     return new Promise((resolve, reject) => {

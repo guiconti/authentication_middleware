@@ -1,17 +1,34 @@
-//  Replace with your token salty key
-var tokenSecretKey = 'replace me';
-//  Replace with your data salty key
-var dataSecretKey = 'replace me';
+/**
+ * Token management module
+ * @module tokenUtils
+ */
+
+/**
+ * Token encrypt and decrypt key
+ * @readonly
+ * @const {string}
+ */
+const tokenSecretKey = 'replace me';
+
+/**
+ * User's data encrypt and decrypt key
+ * @readonly
+ * @const {string}
+ */
+const dataSecretKey = 'replace me';
 
 var crypto = require('crypto-js');
 var jwt = require('jsonwebtoken');
 
-/*
-    31/07/2016
-    This function is responsible to generate a valid token for the user 
-    The function receives a parameter userData that expected a JSON object with the data about the user
-    The function returns a promise with the token case the encryptation succeeds
-*/
+/**
+ * Generates a encrypted token
+ * Receive user's information and generate a new token
+ *
+ * @param {object} userData - Dados do usuário
+ * @return {Promise.string} - Retorna uma promise contendo o token do usuário
+ * @throws {Promise.string} - Retorna o erro encontrado durante a criação do token
+ * 
+ */
 exports.generateToken = function(userData){
 
     return new Promise(function (resolve, reject) {
@@ -20,7 +37,7 @@ exports.generateToken = function(userData){
 
             if(typeof(userData) == 'null') return reject('Not a valid user data');
 
-            var encryptedUserData = crypto.AES.encrypt(userData, dataSecretKey).toString();
+            var encryptedUserData = crypto.AES.encrypt(userData, dataSecretKey);
             
             // Get our token encrypted data 
             var token = jwt.sign({
@@ -35,12 +52,15 @@ exports.generateToken = function(userData){
     });
 };
 
-/*
-    30/05/2017
-    This function is responsible to check if a user token is valid
-    The function receives a parameter token that expected a object with the user token
-    The function returns a promise with the token data if it's valid
-*/
+/**
+ * Decripta um token encriptado
+ * Recebe um token e faz a decriptação com a chave do token
+ *
+ * @param {string} token - Token do usuário
+ * @return {Promise.object} - Retorna uma promise contendo o as informações do usuário
+ * @throws {Promise.string} - Retorna o erro encontrado durante a decriptação do token
+ * 
+ */
 exports.decryptToken = function(token){
     
     return new Promise(function (resolve, reject) {
