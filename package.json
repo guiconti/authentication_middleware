@@ -1,0 +1,22 @@
+{
+  "name": "authentication_middleware",
+  "version": "1.0.0",
+  "description": "",
+  "main": "middleware.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guiconti/authentication_middleware.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/guiconti/authentication_middleware/issues"
+  },
+  "homepage": "https://github.com/guiconti/authentication_middleware#readme",
+  "dependencies": {
+    "crypto-js": "^3.1.9-1"
+  }
+}
